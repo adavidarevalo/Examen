@@ -9,6 +9,11 @@ function init() {
     const filtro = $('#filtro').val();
     todos_controlador(filtro);
   })
+  $('#btn_cancel').on("click", () => {
+      var cines = new Cines_Model('', '', '', '', '', '', '', '', 'todos');
+      cines.limpia_Cajas();
+            $('#staticBackdropLabel').text('Nuevo Cine');
+  });
 }
 
 $().ready(() => {
@@ -17,8 +22,8 @@ $().ready(() => {
 });
 
 var todos_controlador = (filter) => {
-  var todos = new Cines_Model('', '', '', '', '', '', '', '', 'todos');
-  todos.todos(filter);
+  var cines = new Cines_Model('', '', '', '', '', '', '', '', 'todos');
+  cines.todos(filter);
 };
 
 var guardaryeditar = (e) => {

@@ -80,7 +80,7 @@ class Cines_Model {
       res = JSON.parse(res);
         const { ID_cine, Ciudad, Nombre, Número_salas, Direccion, Teléfono } = res;
       console.log(res);
-      $('#staticBackdropLabel').val('Editar Cine');
+      $('#staticBackdropLabel').text('Editar Cine');
       $('#CineId').val(ID_cine);
       $('#Ciudad').val(Ciudad);
       $('#Nombre').val(Nombre);
