@@ -46,28 +46,62 @@ function init() {
     var cines = new Peliculas_Model('', '', '', '', '', '', '', '', 'todos');
     cines.getCines();
   });
-   $('#cerrarBtnAgregarCine').on('click', function () {
-     //  $('#nuevaCiudad').val('');
-     $('#nuevoCineContainer').css('display', 'none');
-   });
-    $('#guardarBtnAgregarCine').on('click', async () => {
-      const ID_cine = $('#ID_cine_add').val();
-      const ID_pelicula = $('#ID_pelicula_val').val();
-      var cines = new Peliculas_Model('', '', '', '', '', '', '', '', 'todos');
-      const from = new FormData();
-      from.append('ID_cine', ID_cine);
-      from.append('ID_pelicula', ID_pelicula);
+  $('#cerrarBtnAgregarCine').on('click', function () {
+    //  $('#nuevaCiudad').val('');
+    $('#nuevoCineContainer').css('display', 'none');
+  });
+  $('#guardarBtnAgregarCine').on('click', async () => {
+    const ID_cine = $('#ID_cine_add').val();
+    const ID_pelicula = $('#ID_pelicula_val').val();
+    var cines = new Peliculas_Model('', '', '', '', '', '', '', '', 'todos');
+    const from = new FormData();
+    from.append('ID_cine', ID_cine);
+    from.append('ID_pelicula', ID_pelicula);
 
-      await cines.associarPeli({ ID_cine, ID_pelicula });
-      await cines.ver(ID_pelicula);
-      
-      $('#nuevoCineContainer').css('display', 'none');      
-    });
+    await cines.associarPeli({ ID_cine, ID_pelicula });
+
+    $('#nuevoCineContainer').css('display', 'none');
+  });
+  $('#btnFiltrarPeliculas').on('click', function () {
+    console.log('Filtrando');
+  });
+  $('#Genero_filter_checkbox').on('click', function () {
+    var selectGenero = $('#Genero_filter');
+
+    if ($(this).prop('checked')) {
+      selectGenero.prop('disabled', false);
+    } else {
+      selectGenero.prop('disabled', true);
+    }
+  });
+  $('#Cine_filter_checkbox').on('change', function () {
+    var selectCine = $('#Cine_filter');
+
+    if ($(this).prop('checked')) {
+      selectCine.prop('disabled', false);
+    } else {
+      selectCine.prop('disabled', true);
+    }
+  });
+
+  $('#Ciudad_filter_checkbox').on('change', function () {
+    var selectCiudad = $('#Ciudad_filter');
+
+    if ($(this).prop('checked')) {
+      selectCiudad.prop('disabled', false);
+    } else {
+      selectCiudad.prop('disabled', true);
+    }
+  });
 }
 
 $().ready(() => {
   //detecta carga de la pagina
   todos_controlador();
+  const peliculas = new Peliculas_Model('', '', '', '', '', '', '', '', 'eliminar');
+  peliculas.getGenero();
+  peliculas.getCines();
+  peliculas.getCiudades();
 });
 
 var todos_controlador = filter => {

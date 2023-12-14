@@ -146,35 +146,6 @@ public function uno($ID_pelicula)
             $con->close();
         }
     }
-
-    public function cedula_repetida($cedula)
-    {
-        try {
-            $con = new Clase_Conectar_Base_Datos();
-            $con = $con->ProcedimientoConectar();
-            $cadena = "SELECT count(*) as cedula_repetida FROM `Usuarios` WHERE `Cedula`= '$cedula'";
-            $result = mysqli_query($con, $cadena);
-            return $result;
-        } catch (Throwable $th) {
-            return $th->getMessage();
-        } finally {
-            $con->close();
-        }
-    }
-    public function verifica_correo($correo)
-    {
-        try {
-            $con = new Clase_Conectar_Base_Datos();
-            $con = $con->ProcedimientoConectar();
-            $cadena = "SELECT count(*) as cedula_repetida FROM `Usuarios` WHERE `correo`= '$correo'";
-            $result = mysqli_query($con, $cadena);
-            return $result;
-        } catch (Throwable $th) {
-            return $th->getMessage();
-        } finally {
-            $con->close();
-        }
-    }
     public function generos()
     {
     try {
@@ -196,6 +167,20 @@ public function uno($ID_pelicula)
         $con = new Clase_Conectar_Base_Datos();
         $con = $con->ProcedimientoConectar();
                 $cadena = "SELECT ID_cine, Nombre, Ciudad from Cines";
+            $result = mysqli_query($con, $cadena);
+            return $result;
+        } catch (Throwable $th) {
+            return $th->getMessage();
+        } finally {
+            $con->close();
+        }
+    }
+    public function ciudades()
+    {
+    try {
+        $con = new Clase_Conectar_Base_Datos();
+        $con = $con->ProcedimientoConectar();
+                $cadena = "SELECT * from Ciudades";
             $result = mysqli_query($con, $cadena);
             return $result;
         } catch (Throwable $th) {

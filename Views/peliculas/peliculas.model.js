@@ -78,7 +78,6 @@ class Peliculas_Model {
     $.post('../../Controllers/peliculas.controller.php?op=uno', { ID_pelicula }, res => {
       res = JSON.parse(res);
       const { Título, Género, Duración } = res[0];
-      console.log(res);
       $('#cine-tab').css('display', 'none');
       $('#Cine_field').css('display', 'none');
       $('#ID').val(ID_pelicula);
@@ -123,7 +122,6 @@ class Peliculas_Model {
     }).then(result => {
       if (result.isConfirmed) {
         $.post('../../Controllers/peliculas.controller.php?op=eliminar', { ID_pelicula }, res => {
-          console.log(res);
           res = JSON.parse(res);
           if (res === 'ok') {
             Swal.fire('pelicula', 'Pelicula Eliminado', 'success');
@@ -164,7 +162,6 @@ class Peliculas_Model {
       let html = '';
 
       $.each(res, (index, valor) => {
-        console.log('🚀 ~ file: peliculas.model.js:168 ~ Peliculas_Model ~ $.each ~ valor:', valor);
         html += `<tr>
                 <td>${valor.Nombre_Cine}</td>
                 <td>${valor.Ciudad}</td>
@@ -188,8 +185,21 @@ class Peliculas_Model {
         html += `<option value="${valor.nombre_genero}">${valor.nombre_genero}</option>`;
       });
       $('#Género').html(html);
+      $('#Genero_filter').html(html);
     });
-    $('#Modal_peliculas').modal('show');
+    // $('#Modal_peliculas').modal('show');
+  }
+
+  getCiudades() {
+    $.post('../../Controllers/peliculas.controller.php?op=ciudades', {}, res => {
+      res = JSON.parse(res);
+      let html = '';
+      $.each(res, (index, valor) => {
+        html += `<option value="${valor.nombre_ciudad}">${valor.nombre_ciudad}</option>`;
+      });
+      $('#Ciudad_filter').html(html);
+    });
+    // $('#Modal_peliculas').modal('show');
   }
 
   getCines() {
@@ -202,6 +212,7 @@ class Peliculas_Model {
 
       $('[id="ID_cine"]').html(html);
       $('#ID_cine_add').html(html);
+      $('#Cine_filter').html(html);
     });
     // $('#Modal_peliculas').modal('show');
   }
@@ -218,10 +229,9 @@ class Peliculas_Model {
   }
 
   associarPeli(dato) {
-      $.post('../../Controllers/peliculas.controller.php?op=asociar', dato, res => {
-          this.ver(dato.ID_pelicula);
-        
-      });
+    $.post('../../Controllers/peliculas.controller.php?op=asociar', dato, res => {
+      this.ver(dato.ID_pelicula);
+    });
   }
   async nuevoGenero(nombre_genero) {
     $.post(

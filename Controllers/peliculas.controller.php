@@ -65,6 +65,14 @@ switch ($_GET["op"]) {
         }
         echo json_encode($todos); 
         break;
+    case 'ciudades':
+        $datos = array(); 
+        $datos = $peliculas->ciudades(); 
+          while ($fila = mysqli_fetch_assoc($datos)) { 
+            $todos[] = $fila;
+        }
+        echo json_encode($todos); 
+        break;
         case 'asociar':
           $ID_cine = $_POST["ID_cine"];
             $ID_pelicula = $_POST["ID_pelicula"];

@@ -31,17 +31,26 @@
                 </div>
                 <div class="form-group" class="mb-5">
                     <label for="filtroTitulo">Genero de pelicula</label>
-                    <input type="text" class="form-control" id="filtroTitulo" placeholder="Filtrar por Título">
+                    <div class="input-group">
+                    <select name="Genero_filter" id="Genero_filter" class="form-control" class="ID_cine" disabled={true}></select>
+                    <input type="checkbox" id="Genero_filter_checkbox" class="mr-2">
+                    </div>
                 </div>
                 <div class="form-group" class="mb-5">
                     <label for="filtroGenero">Busqueda por cine</label>
-                    <input type="text" class="form-control" id="filtroGenero" placeholder="Filtrar por Género">
+                                        <div class="input-group">
+                    <select name="Cine_filter" id="Cine_filter" class="form-control" class="ID_cine" disabled={true}></select>
+                     <input type="checkbox" id="Cine_filter_checkbox" class="mr-2">
+                    </div>
                 </div>
                 <div class="form-group" class="mb-5">
                     <label for="filtroDuracion">Busqueda por ciudad del cine</label>
-                    <input type="text" class="form-control" id="filtroDuracion" placeholder="Filtrar por Duración">
+                     <div class="input-group">
+                    <select name="Ciudad_filter" id="Ciudad_filter" class="form-control" class="ID_cine" disabled={true}></select>
+                    <input type="checkbox" id="Ciudad_filter_checkbox" class="mr-2">
+                    </div>
                 </div>
-                <button type="button" class="btn btn-primary" id="btnFiltrar">
+                <button type="button" class="btn btn-primary" id="btnFiltrarPeliculas">
                     Filtrar
                 </button>
     </div>
