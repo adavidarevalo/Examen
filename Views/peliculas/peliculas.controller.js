@@ -37,7 +37,7 @@ function init() {
   $('#guardarBtn').on('click', function () {
     const nuevoGenero = $('#nuevaCiudad').val();
     var cines = new Peliculas_Model('', '', '', '', '', '', '', '', 'todos');
-    cines.nuevoGenero(nuevoGenero);
+    cines.nuevoGenero(nuevoGenero.toLowerCase());
     $('#inputContainer').css('display', 'none');
     $('#nuevaCiudad').val('');
   });
@@ -51,6 +51,7 @@ function init() {
     $('#nuevoCineContainer').css('display', 'none');
   });
   $('#guardarBtnAgregarCine').on('click', async () => {
+    console.log("XX@")
     const ID_cine = $('#ID_cine_add').val();
     const ID_pelicula = $('#ID_pelicula_val').val();
     var cines = new Peliculas_Model('', '', '', '', '', '', '', '', 'todos');
@@ -63,7 +64,17 @@ function init() {
     $('#nuevoCineContainer').css('display', 'none');
   });
   $('#btnFiltrarPeliculas').on('click', function () {
-    console.log('Filtrando');
+    const filtro = {
+      Genero_filter_checkbox: $('#Genero_filter_checkbox').prop('checked'),
+      Genero_filter: $('#Genero_filter').val(),
+      Cine_filter_checkbox: $('#Cine_filter_checkbox').prop('checked'),
+      Cine_filter: $('#Cine_filter').val(),
+      Ciudad_filter_checkbox: $('#Ciudad_filter_checkbox').prop('checked'),
+      Ciudad_filter: $('#Ciudad_filter').val(),
+      filtroTitulo: $('#filtroTitulo').val(),
+    };
+    var cines = new Peliculas_Model('', '', '', '', '', '', '', '', 'todos');
+    cines.todos(filtro);
   });
   $('#Genero_filter_checkbox').on('click', function () {
     var selectGenero = $('#Genero_filter');

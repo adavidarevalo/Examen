@@ -7,7 +7,7 @@ class Clase_Peliculas
         try {
             $con = new Clase_Conectar_Base_Datos();
             $con = $con->ProcedimientoConectar();
-        $cadena = "SELECT DISTINCT Título, ID_cine, ID_pelicula, Género, Duración, ID FROM `Películas`";
+        $cadena = "SELECT * FROM `Películas` JOIN Cines";
         $result = mysqli_query($con, $cadena);
         return $result;
     } catch (Throwable $th) {
@@ -34,9 +34,11 @@ public function uno($ID_pelicula)
     public function insertar($Título, $Género, $Duración, $ID_cine)
     {
         try {
+            $num = random_int(1, 100000);
+
             $con = new Clase_Conectar_Base_Datos();
             $con = $con->ProcedimientoConectar();
-            $cadena = "INSERT INTO `Películas`(`ID_pelicula`, `ID_cine`, `Título`, `Género`, `Duración`) VALUES (rand(), $ID_cine, '$Título', '$Género', $Duración)";
+            $cadena = "INSERT INTO `Películas`(`ID_pelicula`, `ID_cine`, `Título`, `Género`, `Duración`) VALUES ($num, $ID_cine, '$Título', '$Género', $Duración)";
             $result = mysqli_query($con, $cadena);
             return "ok";
         } catch (Throwable $th) {

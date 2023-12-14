@@ -59,7 +59,7 @@ switch ($_GET["op"]) {
         break;
     case 'login':
         $correo = $_POST["correo"];
-        $contrasenia = md5($_POST["contrasenia"]);
+        $contrasenia = $_POST["contrasenia"];
         if (empty($correo) || empty($contrasenia)) {
             header("Location:../login.php?op=1"); //llenar datos vacios
             exit();

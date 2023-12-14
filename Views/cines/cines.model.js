@@ -159,7 +159,7 @@ class Cines_Model {
       $.each(res, (index, valor) => {
         const { nombre_ciudad } = valor;
 
-        html += ` <option value="${nombre_ciudad}">${nombre_ciudad}</option>`;
+        html += ` <option value="${nombre_ciudad}">${capitalizarPrimerasLetras(nombre_ciudad)}</option>`;
       });
       $('#Ciudad').html(html);
     });
@@ -169,4 +169,20 @@ class Cines_Model {
       this.getCiudades();
     });
   }
+}
+
+
+function capitalizarPrimerasLetras(cadena) {
+  // Dividir la cadena en palabras
+  const palabras = cadena.split(' ');
+
+  // Capitalizar la primera letra de cada palabra
+  const palabrasCapitalizadas = palabras.map(palabra => {
+    return palabra.charAt(0).toUpperCase() + palabra.slice(1);
+  });
+
+  // Unir las palabras capitalizadas de nuevo en una cadena
+  const resultado = palabrasCapitalizadas.join(' ');
+
+  return resultado;
 }

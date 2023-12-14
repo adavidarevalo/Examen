@@ -18,17 +18,9 @@ class Peliculas_Model {
     $.get('../../Controllers/peliculas.controller.php?op=' + this.Ruta, res => {
       res = JSON.parse(res);
 
-      if (filtro) {
-        res = res.filter(cine => {
-          return (
-            cine.Nombre.toLowerCase().includes(filtro.toLowerCase()) ||
-            cine.Ciudad.toLowerCase().includes(filtro.toLowerCase()) ||
-            cine.Direccion.toLowerCase().includes(filtro.toLowerCase()) ||
-            cine.Teléfono.toLowerCase().includes(filtro.toLowerCase()) ||
-            cine.Número_salas.toLowerCase().includes(filtro.toLowerCase())
-          );
-        });
-      }
+    res = filters(res, filtro)
+
+        res = obtenerPeliculasUnicas(res);
 
       $.each(res, (index, valor) => {
         const { Título, ID, ID_pelicula, Género, Duración } = valor;
@@ -65,6 +57,7 @@ class Peliculas_Model {
         if (res === 'ok') {
           Swal.fire('peliculas', 'Pelicula Registrado', 'success');
           todos_controlador();
+    $('#Modal_peliculas').modal('hide');
         } else {
           Swal.fire('Error', res, 'error');
         }
@@ -102,6 +95,7 @@ class Peliculas_Model {
         if (res === 'ok') {
           Swal.fire('peliculas', 'Pelicula Editado', 'success');
           todos_controlador();
+              $('#Modal_peliculas').modal('hide');
         } else {
           Swal.fire('Error', res, 'error');
         }
@@ -111,28 +105,10 @@ class Peliculas_Model {
   }
 
   eliminar(ID_pelicula) {
-    Swal.fire({
-      title: 'Cine',
-      text: 'Esta seguro de eliminar la Pelicula',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Eliminar',
-    }).then(result => {
-      if (result.isConfirmed) {
-        $.post('../../Controllers/peliculas.controller.php?op=eliminar', { ID_pelicula }, res => {
-          res = JSON.parse(res);
-          if (res === 'ok') {
-            Swal.fire('pelicula', 'Pelicula Eliminado', 'success');
-            todos_controlador();
-          } else {
-            Swal.fire('Error', res, 'error');
-          }
-        });
-      }
+    $.post('../../Controllers/peliculas.controller.php?op=eliminar', { ID_pelicula }, res => {
+     todos_controlador();
     });
-    // this.limpia_Cajas();
+
   }
 
   elminarAsociacion(ID, ID_pelicula) {
@@ -142,29 +118,29 @@ class Peliculas_Model {
   }
 
   limpia_Cajas() {
-    document.getElementById('CineId').value = '';
-    document.getElementById('Nombre').value = '';
-    document.getElementById('Ciudad').value = '';
-    document.getElementById('Número_salas').value = '';
-    document.getElementById('Direccion').value = '';
-    document.getElementById('Teléfono').value = '';
+    // document.getElementById('CineId').value = '';
+    // document.getElementById('Nombre').value = '';
+    // document.getElementById('Ciudad').value = '';
+    // document.getElementById('Número_salas').value = '';
+    // document.getElementById('Direccion').value = '';
+    // document.getElementById('Teléfono').value = '';
 
-    $('#Modal_peliculas').modal('hide');
+    // $('#Modal_peliculas').modal('hide');
   }
 
   ver(ID_pelicula) {
     $.post('../../Controllers/peliculas.controller.php?op=uno', { ID_pelicula }, res => {
       res = JSON.parse(res);
       $('#NombrePelicula').text(res[0].Título);
-      $('#GeneroPelicula').text(res[0].Género);
-      $('#DuracionPelicula').val(res[0].Duración);
+      $('#GeneroPelicula').text(capitalizarPrimerasLetras(res[0].Género));
+      $('#DuracionPelicula').text(res[0].Duración);
       $('#ID_pelicula_val').val(res[0].ID_pelicula);
       let html = '';
 
       $.each(res, (index, valor) => {
         html += `<tr>
                 <td>${valor.Nombre_Cine}</td>
-                <td>${valor.Ciudad}</td>
+                <td>${capitalizarPrimerasLetras(valor.Ciudad)}</td>
                 <td>
                 <button type="button" class="btn btn-outline-secondary" onClick="eliminarAsociacion(${valor.ID}, ${valor.ID_pelicula})">
                         X
@@ -182,12 +158,11 @@ class Peliculas_Model {
       res = JSON.parse(res);
       let html = '';
       $.each(res, (index, valor) => {
-        html += `<option value="${valor.nombre_genero}">${valor.nombre_genero}</option>`;
+        html += `<option value="${valor.nombre_genero}">${capitalizarPrimerasLetras(valor.nombre_genero)}</option>`;
       });
       $('#Género').html(html);
       $('#Genero_filter').html(html);
     });
-    // $('#Modal_peliculas').modal('show');
   }
 
   getCiudades() {
@@ -207,7 +182,7 @@ class Peliculas_Model {
       res = JSON.parse(res);
       let html = '';
       $.each(res, (index, valor) => {
-        html += `<option value="${valor.ID_cine}">${valor.Nombre} - ${valor.Ciudad}</option>`;
+        html += `<option value="${valor.ID_cine}">${valor.Nombre} - ${capitalizarPrimerasLetras(valor.Ciudad)}</option>`;
       });
 
       $('[id="ID_cine"]').html(html);
@@ -221,7 +196,7 @@ class Peliculas_Model {
       res = JSON.parse(res);
       let html = '';
       $.each(res, (index, valor) => {
-        html += `<option value="${valor.ID_pelicula}">${valor.Título} - ${valor.Género}</option>`;
+        html += `<option value="${valor.ID_pelicula}">${valor.Título} - ${capitalizarPrimerasLetras(valor.Género)}</option>`;
       });
 
       $('#ID_pelicula').html(html);
@@ -242,4 +217,66 @@ class Peliculas_Model {
       }
     );
   }
+}
+
+
+
+
+function obtenerPeliculasUnicas(array) {
+  const peliculasUnicas = {};
+
+  array.forEach(objeto => {
+    const idPelicula = objeto.ID_pelicula;
+
+    if (!peliculasUnicas[idPelicula]) {
+      peliculasUnicas[idPelicula] = objeto;
+    }
+  });
+
+  return Object.values(peliculasUnicas);
+}
+
+const filters = (res, filtro) => {
+  if (filtro?.filtroTitulo) {
+    res = res.filter(pelicula => {
+      return pelicula.Título.toLowerCase().includes(filtro.filtroTitulo.toLowerCase());
+    });
+  }
+
+  if (filtro?.Genero_filter_checkbox) {
+    res = res.filter(pelicula => {
+      return pelicula.Género === filtro.Genero_filter;
+    });
+  }
+
+  if (filtro?.Ciudad_filter_checkbox) {
+    res = res.filter(pelicula => {
+      return pelicula.Ciudad === filtro.Ciudad_filter;
+    });
+  }
+
+  if (filtro?.Cine_filter_checkbox) {
+    res = res.filter(pelicula => {
+      return pelicula.Nombre === filtro.Cine_filter;
+    });
+  }
+
+  return res;
+};
+
+
+
+function capitalizarPrimerasLetras(cadena) {
+  // Dividir la cadena en palabras
+  const palabras = cadena.split(' ');
+
+  // Capitalizar la primera letra de cada palabra
+  const palabrasCapitalizadas = palabras.map(palabra => {
+    return palabra.charAt(0).toUpperCase() + palabra.slice(1);
+  });
+
+  // Unir las palabras capitalizadas de nuevo en una cadena
+  const resultado = palabrasCapitalizadas.join(' ');
+
+  return resultado;
 }
