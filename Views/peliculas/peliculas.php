@@ -7,7 +7,7 @@
             <div class="d-flex justify-content-between align-items-center mb-1">
                     <h5 class="card-title fw-semibold mb-4">Lista de Peliculas</h5>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal_peliculas" id="btn_nuevo">
-                    Nueva Pelicula o Asociacion
+                    Nueva Pelicula
                 </button>
                 </div>
 <div class="row">
@@ -108,9 +108,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" id="general-tab" data-bs-toggle="tab" href="#general">Nueva Pelicula</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="cine-tab" data-bs-toggle="tab" href="#cine">Asociar Pelicula</a>
-                    </li>
+                  
                 </ul>
                 <div class="tab-content mt-2">
                     <div class="tab-pane fade show active" id="general">
@@ -120,30 +118,51 @@
                         <label for="Título">Título</label>
                         <input type="text" required class="form-control" id="Título" name="Título" placeholder="Título">
                     </div>
-                     <div class="form-group">
-                        <label for="Género">Género</label>
+                
+                     <div >
+                        <label for="Ciudad">Género</label>
+                          <div class="input-group">
                           <select name="Género" id="Género" class="form-control"></select>
-                    </div>
+        <button type="button" class="btn btn-outline-secondary" id="mostrarInput">
+            +
+        </button>
+        <div id="inputContainer" style="display: none;" class="input-group mt-2">
+    <input type="text" class="form-control" id="nuevaCiudad" placeholder="Nueva Genero">
+    <div class="input-group-append">
+        <button type="button" class="btn btn-outline-secondary" id="cerrarBtn">
+            Cerrar
+        </button>
+        <button type="button" class="btn btn-outline-secondary" id="guardarBtn">
+            Guardar
+        </button>
+    </div>
+</div>
+</div>
                      <div class="form-group">
                         <label for="Duración">Duración</label>
                         <input type="text" required class="form-control" id="Duración" name="Duración" placeholder="Duración">
                     </div>
-                      <div class="form-group">
+                      <div class="form-group" id="Cine_field">
                         <label for="Género">Cine</label>
                           <select name="ID_cine" id="ID_cine" class="form-control"></select>
+                          <a  href="../cines/cines.php" target="base"  aria-expanded="false">
+                <span class="hide-menu">Crea un nuevo Cine</span>
+              </a>
                     </div>
  <div class="modal-footer">
      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
      <button type="submit" class="btn btn-primary">Grabar</button>
                 </div>
                                     </form>
-
                     </div>
                     <div class="tab-pane fade" id="cine">
                       <form id="associar_pelicula">
  <div class="form-group">
                         <label for="Género">Cine</label>
                           <select name="ID_cine" id="ID_cine" class="form-control" class="ID_cine"></select>
+                          <a  href="../cines/cines.php" target="base"  aria-expanded="false">
+                <span class="hide-menu">Crea un nuevo Cine</span>
+              </a>
                     </div>
                      <div class="form-group">
                         <label for="Género">Pelicula</label>
@@ -161,7 +180,7 @@
         </div>
     </div>
 </div>
-<!-- Ver Details -->
+
 <div class="modal fade" id="Modal_ver_pelicula" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -169,7 +188,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">Detalles Pelicula</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
+<input type="hidden" name="ID_pelicula_val" id="ID_pelicula_val">
                 </div>
                 <div class="modal-body">
                      <div class="form-group">
@@ -184,12 +203,27 @@
                         <label for="Duracion"><strong>Duración:</strong></label>
                         <span id="DuracionPelicula"></span>
                     </div>
+                    <button type="button" class="btn btn-outline-secondary" id="agregar_nuevo_cine">
+                        Agregar cine
+                    </button>
+                     <div id="nuevoCineContainer" style="display: none;" class="input-group mt-2">
+                          <select name="ID_cine_add" id="ID_cine_add" class="form-control" class="ID_cine"></select>
+    <div class="input-group-append">
+        <button type="button" class="btn btn-outline-secondary" id="cerrarBtnAgregarCine">
+            Cerrar
+        </button>
+        <button type="button" class="btn btn-outline-secondary" id="guardarBtnAgregarCine">
+            Guardar
+        </button>
+    </div>
+</div>
                     <div>
                         <table class="table">
                         <thead>
                             <tr>
                                 <th>Nombre del Cine</th>
                                 <th>Ciudad</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="table_ver_pelicula">

@@ -28,6 +28,12 @@ switch ($_GET["op"]) {
     $datosCine = $peliculas->insertar($Título, $Género, $Duración, $ID_cine); 
     echo json_encode($datosCine); 
         break;
+    case 'nuevoGenero':
+          $nombre_genero = $_POST["nombre_genero"];
+
+    $datosCine = $peliculas->insertarNuevoGenero($nombre_genero); 
+    echo json_encode($datosCine); 
+        break;
     case 'actualizar':
         $ID_pelicula = $_POST["ID"];
         $Título = $_POST["Título"];

@@ -21,7 +21,7 @@ public function uno($ID_pelicula)
     try {
         $con = new Clase_Conectar_Base_Datos();
         $con = $con->ProcedimientoConectar();
-                $cadena = "SELECT Películas.ID_pelicula, Películas.Título, Películas.Género, Películas.Duración, Cines.Nombre AS Nombre_Cine, Cines.Ciudad FROM Películas JOIN Cines ON Películas.ID_cine = Cines.ID_cine WHERE Películas.ID_pelicula = $ID_pelicula";
+                $cadena = "SELECT Películas.ID_pelicula, Películas.Título, Películas.ID, Películas.Género, Películas.Duración, Cines.Nombre AS Nombre_Cine, Cines.Ciudad FROM Películas JOIN Cines ON Películas.ID_cine = Cines.ID_cine WHERE Películas.ID_pelicula = $ID_pelicula";
             $result = mysqli_query($con, $cadena);
             return $result;
         } catch (Throwable $th) {
@@ -37,6 +37,21 @@ public function uno($ID_pelicula)
             $con = new Clase_Conectar_Base_Datos();
             $con = $con->ProcedimientoConectar();
             $cadena = "INSERT INTO `Películas`(`ID_pelicula`, `ID_cine`, `Título`, `Género`, `Duración`) VALUES (rand(), $ID_cine, '$Título', '$Género', $Duración)";
+            $result = mysqli_query($con, $cadena);
+            return "ok";
+        } catch (Throwable $th) {
+            return $th->getMessage();
+        } finally {
+            $con->close();
+        }
+    }
+    public function insertarNuevoGenero($nombre_genero)
+    {
+        try {
+            $con = new Clase_Conectar_Base_Datos();
+            $con = $con->ProcedimientoConectar();
+            $cadena = "INSERT INTO Generos (nombre_genero) VALUES
+    ('$nombre_genero')";
             $result = mysqli_query($con, $cadena);
             return "ok";
         } catch (Throwable $th) {

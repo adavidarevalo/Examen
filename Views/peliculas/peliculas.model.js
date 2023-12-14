@@ -33,6 +33,7 @@ class Peliculas_Model {
       $.each(res, (index, valor) => {
         const { Título, ID, ID_pelicula, Género, Duración } = valor;
 
+        // <button class='btn btn-danger' onclick='eliminarAsociacion(${ID})'>Eliminar Asociacion</button>
         html += `<tr>
                 <td>${ID_pelicula}</td>
                 <td>${Título}</td>
@@ -42,7 +43,6 @@ class Peliculas_Model {
             <button class='btn btn-success' onclick='editar(${ID_pelicula})'>Editar</button>
             <button class='btn btn-success' onclick='ver(${ID_pelicula})'>Ver</button>
             <button class='btn btn-danger' onclick='eliminar(${ID_pelicula})'>Eliminar Pelicula</button>
-            <button class='btn btn-danger' onclick='eliminarAsociacion(${ID})'>Eliminar Asociacion</button>
             
             </td></tr>
                 `;
@@ -80,8 +80,8 @@ class Peliculas_Model {
       const { Título, Género, Duración } = res[0];
       console.log(res);
       $('#cine-tab').css('display', 'none');
-      $('#ID_cine').css('display', 'none');
-      $('#ID').val(ID_pelicula);;
+      $('#Cine_field').css('display', 'none');
+      $('#ID').val(ID_pelicula);
       $('#Título').val(Título);
       $('#Género').val(Género);
       $('#Duración').val(Duración);
@@ -137,30 +137,10 @@ class Peliculas_Model {
     // this.limpia_Cajas();
   }
 
-  elminarAsociacion(ID) {
-    Swal.fire({
-      title: 'Cine',
-      text: 'Esta seguro de eliminar la Asocicion de la Pelicula',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Eliminar',
-    }).then(result => {
-      if (result.isConfirmed) {
-        $.post('../../Controllers/peliculas.controller.php?op=eliminarAsociacion', { ID }, res => {
-          console.log(res);
-          res = JSON.parse(res);
-          if (res === 'ok') {
-            Swal.fire('pelicula', 'Asociacion Eliminado', 'success');
-            todos_controlador();
-          } else {
-            Swal.fire('Error', res, 'error');
-          }
-        });
-      }
+  elminarAsociacion(ID, ID_pelicula) {
+    $.post('../../Controllers/peliculas.controller.php?op=eliminarAsociacion', { ID }, res => {
+      this.ver(ID_pelicula);
     });
-    // this.limpia_Cajas();
   }
 
   limpia_Cajas() {
@@ -179,20 +159,26 @@ class Peliculas_Model {
       res = JSON.parse(res);
       $('#NombrePelicula').text(res[0].Título);
       $('#GeneroPelicula').text(res[0].Género);
-
-      $('#DuracionPelicula').text(res[0].Duración);
+      $('#DuracionPelicula').val(res[0].Duración);
+      $('#ID_pelicula_val').val(res[0].ID_pelicula);
       let html = '';
 
       $.each(res, (index, valor) => {
+        console.log('🚀 ~ file: peliculas.model.js:168 ~ Peliculas_Model ~ $.each ~ valor:', valor);
         html += `<tr>
                 <td>${valor.Nombre_Cine}</td>
                 <td>${valor.Ciudad}</td>
+                <td>
+                <button type="button" class="btn btn-outline-secondary" onClick="eliminarAsociacion(${valor.ID}, ${valor.ID_pelicula})">
+                        X
+                    </button>
+                </td>
                 </tr>
                 `;
       });
+      $('#Modal_ver_pelicula').modal('show');
       $('#table_ver_pelicula').html(html);
     });
-    $('#Modal_ver_pelicula').modal('show');
   }
   getGenero() {
     $.post('../../Controllers/peliculas.controller.php?op=generos', {}, res => {
@@ -215,8 +201,9 @@ class Peliculas_Model {
       });
 
       $('[id="ID_cine"]').html(html);
+      $('#ID_cine_add').html(html);
     });
-    $('#Modal_peliculas').modal('show');
+    // $('#Modal_peliculas').modal('show');
   }
   getPeliculas() {
     $.get('../../Controllers/peliculas.controller.php?op=todos', res => {
@@ -230,24 +217,19 @@ class Peliculas_Model {
     });
   }
 
-  associarPeli() {
-    var dato = new FormData();
-    dato = this.Rol;
-    $.ajax({
-      url: '../../Controllers/peliculas.controller.php?op=asociar',
-      type: 'POST',
-      data: dato,
-      contentType: false,
-      processData: false,
-      success: function (res) {
-        res = JSON.parse(res);
-        if (res === 'ok') {
-          Swal.fire('peliculas', 'Pelicula Registrado', 'success');
-          todos_controlador();
-        } else {
-          Swal.fire('Error', res, 'error');
-        }
-      },
-    });
+  associarPeli(dato) {
+      $.post('../../Controllers/peliculas.controller.php?op=asociar', dato, res => {
+          this.ver(dato.ID_pelicula);
+        
+      });
+  }
+  async nuevoGenero(nombre_genero) {
+    $.post(
+      '../../Controllers/peliculas.controller.php?op=nuevoGenero',
+      { nombre_genero: nombre_genero.toLowerCase() },
+      res => {
+        this.getGenero();
+      }
+    );
   }
 }

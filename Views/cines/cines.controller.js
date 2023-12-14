@@ -26,6 +26,7 @@ function init() {
     var cines = new Cines_Model('', '', '', '', '', '', '', '', 'todos');
     cines.crearCiudad(nuevaCiudad);
     $('#inputContainer').css('display', 'none');
+    $('#nuevaCiudad').val('');
   });
 }
 
