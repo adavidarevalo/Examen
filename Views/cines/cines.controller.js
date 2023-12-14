@@ -14,17 +14,35 @@ function init() {
       cines.limpia_Cajas();
             $('#staticBackdropLabel').text('Nuevo Cine');
   });
+  $('#mostrarInput').on("click", function () {
+    $('#inputContainer').css('display', 'flex');
+  });
+  $('#cerrarBtn').on("click", function () {
+    $('#nuevaCiudad').val('');
+    $('#inputContainer').css('display', 'none');
+  })
+  $('#guardarBtn').on('click', function () {
+    const nuevaCiudad = $('#nuevaCiudad').val();
+    var cines = new Cines_Model('', '', '', '', '', '', '', '', 'todos');
+    cines.crearCiudad(nuevaCiudad);
+    $('#inputContainer').css('display', 'none');
+  });
 }
 
 $().ready(() => {
   //detecta carga de la pagina
   todos_controlador();
+  getCiudades()
 });
 
 var todos_controlador = (filter) => {
   var cines = new Cines_Model('', '', '', '', '', '', '', '', 'todos');
   cines.todos(filter);
 };
+const getCiudades = () => {
+var cines = new Cines_Model('', '', '', '', '', '', '', '', 'todos');
+cines.getCiudades();
+}
 
 var guardaryeditar = (e) => {
   e.preventDefault();

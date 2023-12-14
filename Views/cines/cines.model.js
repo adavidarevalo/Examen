@@ -1,5 +1,6 @@
+/** @format */
+
 class Cines_Model {
-  data
   constructor(UsuarioId, Cedula, Nombres, Apellidos, Telefono, Correo, Contrasenia, Rol, Ruta) {
     this.UsuarioId = UsuarioId;
     this.Cedula = Cedula;
@@ -10,7 +11,6 @@ class Cines_Model {
     this.Contrasenia = Contrasenia;
     this.Rol = Rol;
     this.Ruta = Ruta;
-
   }
   todos(filtro) {
     var html = '';
@@ -26,10 +26,8 @@ class Cines_Model {
             cine.Teléfono.toLowerCase().includes(filtro.toLowerCase()) ||
             cine.Número_salas.toLowerCase().includes(filtro.toLowerCase())
           );
-        
-        })
+        });
       }
-
 
       $.each(res, (index, valor) => {
         const { ID_cine, Ciudad, Nombre, Número_salas, Direccion, Teléfono } = valor;
@@ -43,7 +41,6 @@ class Cines_Model {
                 <td>${Teléfono}</td>
             <td>
             <button class='btn btn-success' onclick='editar(${ID_cine})'>Editar</button>
-            <button class='btn btn-success' onclick='ver(${ID_cine})'>Ver</button>
             <button class='btn btn-danger' onclick='eliminar(${ID_cine})'>Eliminar</button>
             
             </td></tr>
@@ -78,7 +75,7 @@ class Cines_Model {
   uno(ID_cine) {
     $.post('../../Controllers/cines.controller.php?op=uno', { ID_cine: ID_cine }, res => {
       res = JSON.parse(res);
-        const { ID_cine, Ciudad, Nombre, Número_salas, Direccion, Teléfono } = res;
+      const { ID_cine, Ciudad, Nombre, Número_salas, Direccion, Teléfono } = res;
       console.log(res);
       $('#staticBackdropLabel').text('Editar Cine');
       $('#CineId').val(ID_cine);
@@ -153,5 +150,23 @@ class Cines_Model {
     document.getElementById('Teléfono').value = '';
 
     $('#Modal_cines').modal('hide');
+  }
+  getCiudades() {
+    $.get('../../Controllers/cines.controller.php?op=ciudades', res => {
+      res = JSON.parse(res);
+      let html;
+
+      $.each(res, (index, valor) => {
+        const { nombre_ciudad } = valor;
+
+        html += ` <option value="${nombre_ciudad}">${nombre_ciudad}</option>`;
+      });
+      $('#Ciudad').html(html);
+    });
+  }
+  crearCiudad(nombre_ciudad) {
+    $.post('../../Controllers/cines.controller.php?op=crearCiudades', { nombre_ciudad: nombre_ciudad.toLowerCase() }, res => {
+      this.getCiudades();
+    });
   }
 }

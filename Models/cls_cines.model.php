@@ -16,6 +16,20 @@ class Clase_Cines
             $con->close();
         }
     }
+    public function getCiudades()
+    {
+        try {
+            $con = new Clase_Conectar_Base_Datos();
+            $con = $con->ProcedimientoConectar();
+            $cadena = "SELECT * FROM `Ciudades`";
+            $result = mysqli_query($con, $cadena);
+            return $result;
+        } catch (Throwable $th) {
+            return $th->getMessage();
+        } finally {
+            $con->close();
+        }
+    }
     public function uno($ID_cine)
     {
         try {
@@ -51,7 +65,7 @@ class Clase_Cines
     {
         try {
                  $salas = (int)$Número_salas;
-                    $tel = (int)$Telefon;
+                    $tel = (int)$Telefono;
                     $id = (int)$ID_cine;
             $con = new Clase_Conectar_Base_Datos();
             $con = $con->ProcedimientoConectar();
@@ -130,6 +144,21 @@ class Clase_Cines
             $cadena = "SELECT * FROM `Usuarios` WHERE `Correo`= '$correo'";
             $result = mysqli_query($con, $cadena);
             return $result;
+        } catch (Throwable $th) {
+            return $th->getMessage();
+        } finally {
+            $con->close();
+        }
+    }
+     public function crearCiudades($nombre_ciudad)
+    {
+          try {
+            $con = new Clase_Conectar_Base_Datos();
+            $con = $con->ProcedimientoConectar();
+        $cadena = "INSERT INTO Ciudades (nombre_ciudad) VALUES
+    ('$nombre_ciudad')";
+            $result = mysqli_query($con, $cadena);
+            return "ok";
         } catch (Throwable $th) {
             return $th->getMessage();
         } finally {

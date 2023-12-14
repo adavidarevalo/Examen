@@ -44,46 +44,19 @@ switch ($_GET["op"]) {
         $datos = $cines->eliminar($UsuarioId); 
         echo json_encode($datos); 
         break;
-    // case 'actualizar_contrasenia':
-    //     $UsuarioId = $_POST["UsuarioId"];
-    //     $Contrasenia = md5($_POST["Contrasenia"]);
-    //     $datos = array(); 
-    //     $datos = $usuarios->actualizar_contrasenia($UsuarioId, $Contrasenia); 
-    //     echo json_encode($datos);
-    //     break;
-    // case 'login':
-    //     $correo = $_POST["correo"];
-    //     $contrasenia = md5($_POST["contrasenia"]);
-    //     if (empty($correo) || empty($contrasenia)) {
-    //         header("Location:../login.php?op=1"); 
-    //         exit();
-    //     }
-    //     try {
-    //         $datos = array(); 
-    //         $datos = $usuarios->login($correo, $contrasenia); 
-    //         $respuesta = mysqli_fetch_assoc($datos); 
-    //         if (is_array($respuesta) and count($respuesta) > 0) {  
-                
-                
-    //             session_start();
-    //             if ($contrasenia == $respuesta["Contrasenia"]) {  
-    //                 $_SESSION['Nombres']  = $respuesta["Nombres"];
-    //                 $_SESSION['Apellidos'] = $respuesta["Apellidos"];
-    //                 $_SESSION['Correo']    = $respuesta["Correo"];
-    //                 $_SESSION['Rol']       = $respuesta["Rol"];
-    //                 $_SESSION['UsuarioId'] = $respuesta["UsuarioId"];
-    //                 header("Location:../views/index.php");
-    //             } else {
-    //                 header("Location:../login.php?op=2"); 
-    //                 exit();
-    //             }
-    //         } else {
-    //             header("Location:../login.php?op=2"); 
-    //             exit();
-    //         }
-    //     } catch (\Throwable $th) {
-    //         echo json_encode($th->getMessage());
-    //         header("Location:../login.php?op=3"); 
-    //     }
-    //     break;
+    case 'ciudades':
+        $datos = array();
+        $datos = $cines->getCiudades();
+        while ($fila = mysqli_fetch_assoc($datos)) { 
+            $todos[] = $fila;
+        }
+        echo json_encode($todos); 
+        break;
+     case 'crearCiudades':
+                $nombre_ciudad = $_POST["nombre_ciudad"];
+
+           $datosCine = $cines->crearCiudades($nombre_ciudad); 
+
+        echo json_encode($datosCine); 
+        break;
 }

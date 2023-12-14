@@ -6,7 +6,7 @@
             <div class="card-body p-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
                     <h5 class="card-title fw-semibold mb-4">Lista de Cines</h5>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal_cines">
+                <button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal_cines" >
                     Nuevo Cine
                 </button>
                 </div>
@@ -58,12 +58,7 @@
         </div>
 </div>
 
-<!-- Ventana Modal-->
 
-<!-- Button trigger modal -->
-
-
-<!-- Modal -->
 <div class="modal fade" id="Modal_cines" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -82,7 +77,23 @@
                     </div>
                     <div class="form-group">
                         <label for="Ciudad">Ciudad</label>
-                        <input type="text" required class="form-control" id="Ciudad" name="Ciudad" placeholder="Ciudad del Cine">
+                          <div class="input-group">
+        <select name="Ciudad" id="Ciudad" class="form-control"></select>
+        <button type="button" class="btn btn-outline-secondary" id="mostrarInput">
+            +
+        </button>
+        <div id="inputContainer" style="display: none;" class="input-group mt-2">
+    <input type="text" class="form-control" id="nuevaCiudad" placeholder="Nueva Ciudad">
+    <div class="input-group-append">
+        <button type="button" class="btn btn-outline-secondary" id="cerrarBtn">
+            Cerrar
+        </button>
+        <button type="button" class="btn btn-outline-secondary" id="guardarBtn">
+            Guardar
+        </button>
+    </div>
+</div>
+    </div>
                     </div>
                     <div class="form-group">
                         <label for="Número_salas">Numero de Salas</label>
@@ -96,48 +107,6 @@
                         <label for="Teléfono">Teléfono</label>
                         <input type="text" required class="form-control" id="Teléfono" name="Teléfono" placeholder="Teléfono del Cine">
                     </div>
-
-                    <!-- <div class="form-group">
-                        <label for="nombre">Nombres</label>
-                        <input type="text" required class="form-control" id="Nombres" name="Nombres" placeholder="Nombres">
-                    </div>
-                    <div class="form-group">
-                        <label for="Apellidos">Apellidos</label>
-                        <input type="text" required class="form-control" id="Apellidos" name="Apellidos" placeholder="Apellidos">
-                    </div>
-                    <div class="form-group">
-                        <label for="Telefono">Teléfono</label>
-                        <input type="text" required class="form-control" id="Telefono" name="Telefono" placeholder="Telefono">
-                    </div>
-                    <div class="form-group">
-                        <label for="Rol">Rol</label>
-                        <select name="Rol" id="Rol" class="form-control">
-                            <option value="Administrador">Administrador</option>
-                            <option value="Vendedor">Vendedor</option>
-                            <option value="Cliente">Cliente</option>
-                            <option value="Gerente">Gerente</option>
-                            <option value="Cajero">Cajero</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="Correo">Correo</label>
-                        <input type="text" required onfocusout="verifica_correo()" class="form-control" id="Correo" name="Correo" placeholder="Correo">
-                        <div class="alert alert-danger d-none" role="alert" id="CorreoRepetido">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="Contrasenia">Contraseña</label>
-                        <input type="password" required onfocusout="verifica_contrasenias()" class="form-control" id="Contrasenia" name="Contrasenia" placeholder="Contrasenia">
-                        <div class="alert alert-danger d-none" role="alert" id="errorContrasenia">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="nombre">Repita su contraseña</label>
-                        <input type="password" required class="form-control" onfocusout="verifica_contrasenias()"  id="Contrasenia2" placeholder="Contrasenia2">
-                        <div class="alert alert-danger d-none" role="alert" id="errorContrasenia">
-                        </div>
-                    </div> -->
-
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Grabar</button>
