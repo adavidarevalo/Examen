@@ -122,6 +122,7 @@ var todos_controlador = filter => {
 
 var guardaryeditar = e => {
   e.preventDefault();
+  
   var formData = new FormData($('#form_pelicula')[0]);
 
   var ID = document.getElementById('ID').value;
@@ -132,6 +133,7 @@ var guardaryeditar = e => {
     var peliculas = new Peliculas_Model('', '', '', '', '', '', '', formData, 'insertar');
     peliculas.insertar();
   }
+    document.getElementById('form_pelicula').reset();
 };
 
 const asociarPeli = e => {

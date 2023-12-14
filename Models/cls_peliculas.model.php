@@ -7,7 +7,9 @@ class Clase_Peliculas
         try {
             $con = new Clase_Conectar_Base_Datos();
             $con = $con->ProcedimientoConectar();
-        $cadena = "SELECT * FROM `Películas` JOIN Cines";
+        $cadena = "SELECT *
+FROM `Películas`
+JOIN `Cines` ON `Películas`.`ID_cine` = `Cines`.`ID_cine`;";
         $result = mysqli_query($con, $cadena);
         return $result;
     } catch (Throwable $th) {
