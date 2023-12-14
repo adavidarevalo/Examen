@@ -29,7 +29,7 @@ class Peliculas_Model {
         html += `<tr>
                 <td>${ID_pelicula}</td>
                 <td>${Título}</td>
-                <td>${Género}</td>
+                <td>${capitalizarPrimerasLetras(Género)}</td>
                 <td>${Duración}</td>
             <td>
             <button class='btn btn-success' onclick='editar(${ID_pelicula})'>Editar</button>
@@ -170,11 +170,10 @@ class Peliculas_Model {
       res = JSON.parse(res);
       let html = '';
       $.each(res, (index, valor) => {
-        html += `<option value="${valor.nombre_ciudad}">${valor.nombre_ciudad}</option>`;
+        html += `<option value="${valor.nombre_ciudad}">${capitalizarPrimerasLetras(valor.nombre_ciudad)}</option>`;
       });
       $('#Ciudad_filter').html(html);
     });
-    // $('#Modal_peliculas').modal('show');
   }
 
   getCines() {
