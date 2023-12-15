@@ -118,14 +118,6 @@ class Peliculas_Model {
   }
 
   limpia_Cajas() {
-    // document.getElementById('CineId').value = '';
-    // document.getElementById('Nombre').value = '';
-    // document.getElementById('Ciudad').value = '';
-    // document.getElementById('Número_salas').value = '';
-    // document.getElementById('Direccion').value = '';
-    // document.getElementById('Teléfono').value = '';
-
-    // $('#Modal_peliculas').modal('hide');
   }
 
   ver(ID_pelicula) {
@@ -180,13 +172,19 @@ class Peliculas_Model {
     $.post('../../Controllers/peliculas.controller.php?op=cines', {}, res => {
       res = JSON.parse(res);
       let html = '';
+      let html2 = '';
       $.each(res, (index, valor) => {
-        html += `<option value="${valor.ID_cine}">${valor.Nombre} - ${capitalizarPrimerasLetras(valor.Ciudad)}</option>`;
+        html += `<option value="${valor.ID_cine}">${valor.Nombre} - ${capitalizarPrimerasLetras(
+          valor.Ciudad
+        )}</option>`;
+        html2 += `<option value="${valor.Nombre}">${valor.Nombre} - ${capitalizarPrimerasLetras(
+          valor.Ciudad
+        )}</option>`;
       });
 
       $('[id="ID_cine"]').html(html);
       $('#ID_cine_add').html(html);
-      $('#Cine_filter').html(html);
+      $('#Cine_filter').html(html2);
     });
     // $('#Modal_peliculas').modal('show');
   }
@@ -212,6 +210,9 @@ class Peliculas_Model {
       '../../Controllers/peliculas.controller.php?op=nuevoGenero',
       { nombre_genero: nombre_genero.toLowerCase() },
       res => {
+         if (res === 'false') {
+           alert('Genero ya existe');
+         }
         this.getGenero();
       }
     );
@@ -236,6 +237,7 @@ function obtenerPeliculasUnicas(array) {
 }
 
 const filters = (res, filtro) => {
+  console.log("🚀 ~ file: peliculas.model.js:231 ~ filters ~ filtro:", filtro)
   if (filtro?.filtroTitulo) {
     res = res.filter(pelicula => {
       return pelicula.Título.toLowerCase().includes(filtro.filtroTitulo.toLowerCase());
@@ -253,9 +255,11 @@ const filters = (res, filtro) => {
       return pelicula.Ciudad === filtro.Ciudad_filter;
     });
   }
-
+  
   if (filtro?.Cine_filter_checkbox) {
+    console.log('filtro.Ciudad_filter ', filtro);
     res = res.filter(pelicula => {
+      console.log('pelicula.Ciudad ', pelicula.Nombre);
       return pelicula.Nombre === filtro.Cine_filter;
     });
   }

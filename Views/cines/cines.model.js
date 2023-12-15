@@ -35,7 +35,7 @@ class Cines_Model {
         html += `<tr>
                 <td>${ID_cine}</td>
                 <td>${Nombre}</td>
-                <td>${Ciudad}</td>
+                <td>${capitalizarPrimerasLetras(Ciudad)}</td>
                 <td>${Número_salas}</td>
                 <td>${Direccion}</td>
                 <td>${Teléfono}</td>
@@ -164,8 +164,11 @@ class Cines_Model {
       $('#Ciudad').html(html);
     });
   }
-  crearCiudad(nombre_ciudad) {
+  async crearCiudad(nombre_ciudad) {
     $.post('../../Controllers/cines.controller.php?op=crearCiudades', { nombre_ciudad: nombre_ciudad.toLowerCase() }, res => {
+      if (res === "false") {
+        alert("Ciudad ya existe");
+      }
       this.getCiudades();
     });
   }

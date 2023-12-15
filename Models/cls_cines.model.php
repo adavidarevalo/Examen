@@ -158,7 +158,7 @@ class Clase_Cines
         $cadena = "INSERT INTO Ciudades (nombre_ciudad) VALUES
     ('$nombre_ciudad')";
             $result = mysqli_query($con, $cadena);
-            return "ok";
+            return $result;
         } catch (Throwable $th) {
             return $th->getMessage();
         } finally {

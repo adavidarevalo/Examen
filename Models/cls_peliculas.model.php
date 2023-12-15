@@ -57,7 +57,7 @@ public function uno($ID_pelicula)
             $cadena = "INSERT INTO Generos (nombre_genero) VALUES
     ('$nombre_genero')";
             $result = mysqli_query($con, $cadena);
-            return "ok";
+            return $result;
         } catch (Throwable $th) {
             return $th->getMessage();
         } finally {
